@@ -35,13 +35,13 @@ function Header() {
         </div>
 
         <p className='animate hero__heading'>
-          Hey, I'm PriyaRanjan...
+          Hey, I&apos;m PriyaRanjan...
         </p>
         <p className='animate hero__subheading'>I am a pragmatic Frontend Developer <br />
           who has worked with multiple companies and businesses.<br /><br />
         </p>
         <button className='animate hero__connect'>
-          <Link href="https://www.linkedin.com/in/techiepriyaranjan/" target="_blank">Let's connect!</Link>
+          <Link href="https://www.linkedin.com/in/techiepriyaranjan/" target="_blank">Let&apos;s connect!</Link>
         </button>
         <div style={{
           display: 'flex', marginTop: '70px'
