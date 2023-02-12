@@ -1,4 +1,5 @@
 import gsap from 'gsap';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import './Header.scss';
@@ -29,7 +30,7 @@ function Header() {
       <div className='hero'>
         <div className="logo">
           <Link href="/">
-            <img src='logo.png' alt='logo' height={150} />
+            <Image src='/logo.png' alt='logo' height={150} width={250} />
           </Link>
         </div>
 
