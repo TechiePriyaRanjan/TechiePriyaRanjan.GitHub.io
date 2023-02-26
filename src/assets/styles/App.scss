@@ -65,6 +65,11 @@
   --shadow-Hover: 0px 2px 20px -5px rgba(30, 30, 60, 0.15);
 }
 
+:root {
+  --navbar-height: 4rem;
+  --section-padding: 4rem;
+  --section-margin: 2rem;
+}
 
 // section {
 //   height: 100vh;
@@ -85,7 +90,7 @@
 
 .app__container {
   width: 100%;
-  min-height: 100vh;
+  // min-height: 100vh;
 
   display: flex;
   flex-direction: row;

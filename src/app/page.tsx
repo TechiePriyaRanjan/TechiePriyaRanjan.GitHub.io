@@ -6,8 +6,8 @@
 // import Experience from "@/components/organisms/Experience/Experience";
 // import Work from "@/components/organisms/Work/Work";
 
-import Navbar from "@/components/atoms/Navbar/Navbar";
-import { Header, Work, Skills, Experience, Footer } from "@/components/organisms";
+import Navbar from "@/components/molecules/Navbar/Navbar";
+import { Hero, Work, Skills, Experience, Footer } from "@/components/organisms";
 import { useEffect, useState } from "react";
 import '../assets/styles/App.scss';
 import '../assets/styles/index.css';
@@ -39,10 +39,12 @@ export default function Page() {
 
   return (
     <div className="app">
+      <Navbar />
+      <Hero />
+      <Skills />
+      <Work />
       {/* <div className="cursor"></div> */}
-      {/* <Navbar /> */}
-      <Header />
-      {/* <Skills /> */}
+
       {/* <Experience /> */}
       {/* <Footer /> */}
     </div>
