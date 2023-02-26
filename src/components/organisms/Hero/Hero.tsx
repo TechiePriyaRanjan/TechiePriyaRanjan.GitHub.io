@@ -31,8 +31,8 @@ function Hero() {
         <div className='hero'>
           <p className='animate hero__heading'>
             Hey there,
-            <img className='sayHiToVisitors' src='./images/waving_hand.svg' /> <br />
-            I'm PriyaRanjan...
+            <Image className='sayHiToVisitors' src='./images/waving_hand.svg' height={128} width={128} alt="Waving Hand Emoji" /> <br />
+            I&apos;m PriyaRanjan...
           </p>
           <div className='animate profession_container'>
             <p className='hero__subheading'>I&apos;m a pragmatic</p>
