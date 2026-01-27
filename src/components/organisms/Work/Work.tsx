@@ -1,37 +1,86 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import './Work.scss'
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-function Work() {
+interface Project {
+  title: string;
+  category: string;
+  image?: string;
+  bgColor: string;
+}
+
+const projects: Project[] = [
+  {
+    title: 'Mobile App',
+    category: 'App Design',
+    image: '/images/next.svg', // placeholder
+    bgColor: '#F0C14B'
+  },
+  {
+    title: 'Portfolio Website',
+    category: 'Web Design',
+    bgColor: '#2D5F5D'
+  },
+  {
+    title: 'Dashboard',
+    category: 'UX/UI',
+    bgColor: '#9CA3AF'
+  }
+];
+
+const Work: React.FC = () => {
   return (
-    <section className='work'>
-      <h1 className='section_title'>Works</h1>
-      <div className="work_wrapper">
-        <div className='work_description'>
-          <div className='work__description--text'>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Odit mollitia perspiciatis dicta illo vero accusamus iusto molestias et id
-              voluptates saepe impedit est voluptatem architecto voluptas nesciunt,
-              quam fugit! A.</p>
-          </div>
-          <div className='work__description--links'>
-            <p>URL: <Link href='https://nextjs.org/docs/messages/next-image-unconfigured-host'>Live Preview</Link></p>
-            <p>GitHub: <Link href='https://github.com/vercel/next.js'>Github Link</Link></p>
-          </div>
+    <section className='bg-[#F5F5F0] py-20 px-8'>
+      <div className='container mx-auto max-w-6xl'>
+        <div className='flex justify-between items-center mb-12'>
+          <h2 className='text-[3rem] font-bold text-[#1d1d1d]'>My Latest Works</h2>
+          <Link
+            href='#'
+            className='text-[#D97757] hover:underline text-sm font-medium'
+          >
+            Update New Work →
+          </Link>
         </div>
-        <div className='work_image'>
-          <Image
-            className='banner_image'
-            src='https://images.unsplash.com/photo-1607789377672-f6934b34c7d9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=459&q=80'
-            height="500"
-            width="450"
-            alt='my banner photo'
-          />
+
+        <p className='text-[#666] mb-12 max-w-2xl'>
+          Check out some of my latest creations
+        </p>
+
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+          {projects.map((project, index) => (
+            <div
+              key={index}
+              className='group relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer'
+              style={{
+                backgroundColor: project.bgColor,
+                minHeight: '350px'
+              }}
+            >
+              <div className='p-8 h-full flex flex-col justify-between'>
+                <div>
+                  <span className='inline-block bg-white/90 px-4 py-2 rounded-full text-sm font-medium text-[#1d1d1d] mb-4'>
+                    {project.category}
+                  </span>
+                </div>
+
+                <div className='mt-auto'>
+                  <h3 className='text-white text-2xl font-bold mb-2'>{project.title}</h3>
+
+                  {/* Placeholder for project preview image */}
+                  <div className='mt-4 bg-white/10 backdrop-blur-sm rounded-lg p-4 h-32 flex items-center justify-center'>
+                    <div className='text-white/50 text-sm'>Project Preview</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Hover effect overlay */}
+              <div className='absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-300' />
+            </div>
+          ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Work
+export default Work;
