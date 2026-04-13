@@ -1,3 +1,4 @@
+import { WavingHand } from '@/components/WavingHand';
 import Link from 'next/link';
 import React from 'react';
 
@@ -14,15 +15,14 @@ const Footer: React.FC = () => {
             </h2>
             <p className='text-lg text-[#666] mb-8'>
               Start by <span className='text-[#D97757] font-medium cursor-pointer hover:underline'>
-                <a href='mailto:thepriyaranjan@gmail.com'>saying hi</a>
+                <a href='https://www.linkedin.com/in/techiepriyaranjan/'>saying hi <WavingHand size={24} /></a>
               </span>
             </p>
 
-            {/* Signature */}
             <div className='mt-12'>
-              <p className='font-bold text-xl text-[#1d1d1d]'>PriyaRanjan</p>
+              <p className='font-bold text-xl text-[#1d1d1d]'>Priya Ranjan Dubey</p>
               <p className='text-sm text-[#666] mt-1'>
-                © 2025. All rights reserved.
+                © 2026. All rights reserved.
               </p>
             </div>
           </div>
@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
           {/* Right Side - Contact Information */}
           <div className='grid grid-cols-2 gap-8'>
             {/* Information */}
-            <div>
+            {/* <div>
               <h3 className='text-sm font-bold text-[#1d1d1d] uppercase tracking-wide mb-4'>
                 Information
               </h3>
@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             {/* Social Links */}
             <div>

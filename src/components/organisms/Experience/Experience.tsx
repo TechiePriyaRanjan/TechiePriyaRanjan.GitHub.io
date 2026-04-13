@@ -12,7 +12,7 @@ interface Experience {
 
 const experiences: Experience[] = [
   {
-    period: '2023/03 – present',
+    period: '2023/03 – 02/2026',
     location: 'Bengaluru, India',
     role: 'Senior Software Engineer',
     company: 'Indium Software',

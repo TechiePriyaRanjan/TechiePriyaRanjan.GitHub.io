@@ -1,15 +1,13 @@
 "use client"
-
-import Navbar from "@/components/molecules/Navbar/Navbar";
-import { Hero, Work, Experience, Footer } from "@/components/organisms";
+import Experience from "@/components/organisms/Experience/Experience";
+import Footer from "@/components/organisms/Footer/Footer";
+import Hero from "@/components/organisms/Hero/Hero";
 
 export default function Page() {
   return (
     <div className="app">
-      <Navbar />
       <Hero />
       <Experience />
-      <Work />
       <Footer />
     </div>
   )
