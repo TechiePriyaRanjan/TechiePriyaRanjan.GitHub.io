@@ -7,8 +7,12 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'priyaranjan.dev',
+      },
     ],
-  }
+  },
 }
 
 module.exports = nextConfig
