@@ -1,40 +1,89 @@
-import Link from 'next/link';
-import React from 'react';
+'use client';
 
-const Navbar: React.FC = () => {
+import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+
+const links = [
+  { name: 'Home', href: '#' },
+  { name: 'Work', href: '#' },
+  { name: 'Speaking', href: '#' },
+  { name: 'Podcasts', href: '#' },
+];
+
+const Navigation = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <nav className='flex justify-between items-center px-12 py-4 bg-[#F5F5F0]' style={{ height: 'var(--navbar-height)' }}>
-      {/* Logo/Brand */}
-      <div className='flex items-center gap-3'>
-        <div className='w-10 h-10 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center'>
-          <svg width='20' height='20' viewBox='0 0 20 20' fill='white'>
-            <path d='M10 2L3 7v6c0 3.5 2.5 6.5 7 8 4.5-1.5 7-4.5 7-8V7l-7-5z' />
-          </svg>
-        </div>
-        <span className='text-xl font-bold text-gray-900'>PriyaRanjan</span>
-      </div>
+    <>
+      {/* Desktop Navigation */}
+      <header className="hidden md:flex justify-between items-center px-12 py-8 shrink-0 w-full max-w-7xl mx-auto">
+        <div className="text-4xl font-signature text-[var(--text-color)] drop-shadow-sm">PriyaRanjan</div>
+        <nav className="flex gap-8 items-center uppercase text-xs font-semibold tracking-widest">
+          {links.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              className="text-[var(--text-color)] hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm"
+              aria-label={`Navigate to ${link.name}`}
+            >
+              {link.name}
+            </a>
+          ))}
+        </nav>
+      </header>
 
-      {/* Navigation Links */}
-      <div className='flex items-center gap-10'>
-        <Link href='#' className='flex items-center gap-2 text-gray-900 font-medium hover:text-emerald-500 transition-colors'>
-          <span className='w-2 h-2 rounded-full bg-emerald-500'></span>
-          Home
-        </Link>
-        <Link href='#' className='text-gray-600 hover:text-gray-900 transition-colors'>
-          About
-        </Link>
-        <Link href='#' className='text-gray-600 hover:text-gray-900 transition-colors'>
-          Services
-        </Link>
-        <Link href='#' className='text-gray-600 hover:text-gray-900 transition-colors'>
-          Projects
-        </Link>
-        <Link href='#' className='text-gray-600 hover:text-gray-900 transition-colors'>
-          Contact
-        </Link>
-      </div>
-    </nav>
+      {/* Mobile Menu Icon */}
+      <button
+        className="md:hidden fixed top-6 left-6 z-50 p-2 text-[var(--text-color)] opacity-70 hover:opacity-100 transition-opacity cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm"
+        onClick={() => setIsOpen(true)}
+        aria-label="Open Mobile Menu"
+        aria-expanded={isOpen}
+      >
+        <Menu size={28} aria-hidden="true" />
+      </button>
+
+      {/* Mobile Full Screen Menu */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[var(--bg-color)] sm:hidden"
+            role="dialog"
+            aria-modal="true"
+          >
+            <button
+              className="absolute top-6 left-6 p-2 text-[var(--bg-color)] bg-[var(--text-color)] shadow-lg cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--text-color)] rounded-sm"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close Mobile Menu"
+            >
+              <X size={24} aria-hidden="true" />
+            </button>
+            <nav>
+              <ul className="text-center space-y-6 uppercase tracking-[4px] font-mono text-xl">
+                {links.map((link) => (
+                  <li key={link.name}>
+                    <a
+                      href={link.href}
+                      onClick={() => setIsOpen(false)}
+                      className="relative text-[var(--text-color)] shadow-[0_-3px_0_0_var(--text-color)_inset] hover:shadow-[0_-20px_0_0_var(--text-color)_inset] transition-shadow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-8 focus-visible:ring-[var(--text-color)] rounded-sm px-2"
+                      aria-label={`Navigate to ${link.name}`}
+                    >
+                      {link.name.slice(0, -1)}
+                      <span className="tracking-normal">{link.name.slice(-1)}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
-export default Navbar;
+export default Navigation;

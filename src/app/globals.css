@@ -1,64 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+@font-face {
+  font-family: 'AbigailaSignature';
+  src: url('/fonts/AbigailaSignature.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Custom CSS Variables */
+/* ── Theme CSS Variables ── */
 :root {
-  --background: #F9F9FB;
-  --layer: #FFFFFF;
-  --backdrop: rgba(200, 200, 215, 0.65);
-  --outline: var(--primary);
-  --primary: var(--blue);
-  --primaryText: var(--blueText);
-  --red: #FF6168;
-  --redText: #150001;
-  --orange: #FF6A3E;
-  --orangeText: #320B06;
-  --yellow: #FDD352;
-  --yellowText: #4B3B06;
-  --green: #46D284;
-  --greenText: #14291D;
-  --blue: #0047DB;
-  --blueText: #EAF6FF;
-  --sky: #00B6FF;
-  --skyText: #002738;
-  --purple: #5B2DAB;
-  --purpleText: #F6F2FD;
-  --pink: #FF9EB8;
-  --pinkText: #200005;
-  --black: #07071A;
-  --white: #FFFFFF;
-  --grey: #E4E5EE;
-  --greyText: var(--text);
-  --greyFade: rgba(236, 237, 247, 0.7);
-  --border: rgba(24, 48, 98, 0.65);
-  --borderText: var(--background);
-  --borderFade: rgba(23, 23, 51, 0.2);
-  --text: #030A1D;
-  --textFade: rgba(3, 9, 50, 0.5);
-  --shadow: rgba(0, 0, 50, 0.08) 0px 4px 12px;
-  --shadow-Hover: 0px 2px 20px -5px rgba(30, 30, 60, 0.15);
+  --bg-color: #faf9f6;
+  --text-color: #1a1a1a;
+  --border-color: #e5e5e5;
+  --highlight: #1a1a1a;
+  --muted: #a3a3a3;
+
+  /* legacy vars (kept for safety) */
   --navbar-height: 4rem;
-  --section-padding: 4rem;
-  --section-margin: 2rem;
 }
 
-/* ScrollBar Styles */
+.dark {
+  --bg-color: #121212;
+  --text-color: #faf9f6;
+  --border-color: #333333;
+  --highlight: #faf9f6;
+  --muted: #737373;
+}
+
+/* ── Scrollbar ── */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #1f2937;
+  background: var(--bg-color);
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  height: 80px;
-  background: linear-gradient(rgb(134, 239, 172), rgb(59, 130, 246), rgb(147, 51, 234));
+  background: var(--border-color);
 }
 
-/* Global Styles */
+/* ── Global Reset ── */
 * {
   margin: 0;
   padding: 0;
@@ -66,78 +54,54 @@
 }
 
 body {
-  background-color: var(--background);
-  color: var(--text);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Custom Animations */
+/* ── Wave Hand Animation ── */
 @keyframes waveKeyframe {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  10% {
-    transform: rotate(14deg);
-  }
-
-  20% {
-    transform: rotate(-8deg);
-  }
-
-  30% {
-    transform: rotate(14deg);
-  }
-
-  40% {
-    transform: rotate(-4deg);
-  }
-
-  50% {
-    transform: rotate(10deg);
-  }
-
-  60% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(0deg);
-  }
+  0%   { transform: rotate(0.0deg); }
+  10%  { transform: rotate(14.0deg); }
+  20%  { transform: rotate(-8.0deg); }
+  30%  { transform: rotate(14.0deg); }
+  40%  { transform: rotate(-4.0deg); }
+  50%  { transform: rotate(10.0deg); }
+  60%  { transform: rotate(0.0deg); }
+  100% { transform: rotate(0.0deg); }
 }
 
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.33);
-  }
+/* For inline animate-[wave_...] Tailwind arbitrary syntax */
+@keyframes wave {
+  0%   { transform: rotate(0.0deg); }
+  10%  { transform: rotate(14.0deg); }
+  20%  { transform: rotate(-8.0deg); }
+  30%  { transform: rotate(14.0deg); }
+  40%  { transform: rotate(-4.0deg); }
+  50%  { transform: rotate(10.0deg); }
+  60%  { transform: rotate(0.0deg); }
+  100% { transform: rotate(0.0deg); }
+}
 
-  80%,
-  100% {
-    opacity: 0;
-  }
+/* Pulsating Circles (kept for future use) */
+@keyframes pulse-ring {
+  0%       { transform: scale(0.33); }
+  80%, 100% { opacity: 0; }
 }
 
 @keyframes pulse-dot {
-  0% {
-    transform: scale(0.8);
-  }
-
-  50% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(0.8);
-  }
+  0%   { transform: scale(0.8); }
+  50%  { transform: scale(1); }
+  100% { transform: scale(0.8); }
 }
 
-/* Waving Hand Animation */
 .sayHiToVisitors:hover,
 .sayHiToVisitors:focus {
   animation: waveKeyframe 3s infinite ease-in-out;
   transform-origin: 120% 120%;
 }
 
-/* Pulsating Circles */
 .pulsating__circles {
   position: relative;
   width: 24px;
