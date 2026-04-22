@@ -8,7 +8,7 @@ import ThemeToggle from '@/components/atoms/ThemeToggle/ThemeToggle';
 
 const links = [
   { name: 'Home', href: '/' },
-  { name: 'Work', href: '#' },
+  { name: 'Work', href: '/work' },
   { name: 'Speaking', href: '/speaking' },
   { name: 'Blog', href: '/blog' },
   // { name: 'Podcasts', href: '#' },
