@@ -3,15 +3,15 @@ import TalkCard, { TalkDataType } from '@/components/molecules/TalkCard/TalkCard
 import TalkListItem from '@/components/molecules/TalkCard/TalkListItem';
 
 export const talksData: TalkDataType[] = [
-  // {
-  //   id: 1,
-  //   title: 'Scaling Frontend Architectures for the Modern Web',
-  //   tags: ['React', 'Architecture', 'Performance'],
-  //   date: 'October 12, 2025',
-  //   place: 'React India, Goa',
-  //   slidesUrl: '#',
-  //   githubUrl: '#',
-  // },
+  {
+    id: 1,
+    title: 'Building RAG-powered React apps',
+    tags: ['React', 'AI', 'RAG'],
+    date: 'May 12, 2026',
+    place: 'React Bengaluru Meetup, Meetup',
+    slidesUrl: '#',
+    githubUrl: '#',
+  },
   // {
   //   id: 2,
   //   title: 'The Editorial Aesthetic in UI Engineering',

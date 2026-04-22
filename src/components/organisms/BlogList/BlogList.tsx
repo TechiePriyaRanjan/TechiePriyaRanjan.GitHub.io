@@ -2,14 +2,14 @@ import React from 'react';
 import BlogListItem, { BlogPostType } from '@/components/molecules/BlogCard/BlogListItem';
 
 export const blogData: BlogPostType[] = [
-  // {
-  //   id: 1,
-  //   title: 'The Art of Pragmatic Engineering',
-  //   description: 'Why perfection is the enemy of shipping, and how to find the balance between elegant code and delivering value.',
-  //   date: 'March 24, 2026',
-  //   readTime: '6 min read',
-  //   url: '#',
-  // },
+  {
+    id: 1,
+    title: 'Building RAG-powered React apps',
+    description: 'Building RAG-powered React apps means combining retrieval systems with AI models in a React frontend to deliver context-aware, dynamic responses.',
+    date: 'April 22, 2026',
+    readTime: '6 min read',
+    url: '#',
+  },
   // {
   //   id: 2,
   //   title: 'Rebuilding a Portfolio with Modern Tools',

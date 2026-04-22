@@ -8,7 +8,7 @@ import { motion } from 'motion/react';
 import { LayoutGrid, GripHorizontal } from 'lucide-react';
 
 export default function SpeakingPage() {
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
   return (
     <div className="relative bg-[var(--bg-color)] text-[var(--text-color)] font-sans min-h-screen overflow-x-hidden flex flex-col transition-colors duration-300">
