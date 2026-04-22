@@ -24,7 +24,7 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="fixed top-4 right-4 sm:top-8 sm:right-8 z-50 p-2 rounded-full bg-[var(--border-color)] text-[var(--text-color)] cursor-pointer hover:scale-110 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--text-color)]"
+      className="fixed top-6 right-6 md:static z-50 p-2 rounded-full bg-[var(--border-color)] text-[var(--text-color)] cursor-pointer hover:scale-110 transition-transform focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--text-color)]"
       aria-label="Toggle theme"
     >
       {theme === 'light' ? <Moon size={20} aria-hidden="true" /> : <Sun size={20} aria-hidden="true" />}
