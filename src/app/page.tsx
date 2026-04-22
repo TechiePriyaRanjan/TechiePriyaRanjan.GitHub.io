@@ -1,9 +1,8 @@
 'use client';
 
-import Hero from '@/components/organisms/Hero/Hero';
-import Navigation from '@/components/molecules/Navbar/Navbar';
-import ThemeToggle from '@/components/atoms/ThemeToggle/ThemeToggle';
 import Footer from '@/components/molecules/Footer/Footer';
+import Navigation from '@/components/molecules/Navbar/Navbar';
+import Hero from '@/components/organisms/Hero/Hero';
 
 export default function Page() {
   return (
