@@ -10,7 +10,7 @@ const links = [
   { name: 'Home', href: '/' },
   { name: 'Work', href: '#' },
   { name: 'Speaking', href: '/speaking' },
-  { name: 'Blog', href: '#' },
+  { name: 'Blog', href: '/blog' },
   // { name: 'Podcasts', href: '#' },
 ];
 
