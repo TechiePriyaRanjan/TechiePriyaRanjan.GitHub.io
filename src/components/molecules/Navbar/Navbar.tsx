@@ -7,9 +7,9 @@ import MobileMenuOverlay from '@/components/molecules/MobileMenuOverlay/MobileMe
 import ThemeToggle from '@/components/atoms/ThemeToggle/ThemeToggle';
 
 const links = [
-  { name: 'Home', href: '#' },
+  { name: 'Home', href: '/' },
   { name: 'Work', href: '#' },
-  { name: 'Speaking', href: '#' },
+  { name: 'Speaking', href: '/speaking' },
   { name: 'Blog', href: '#' },
   // { name: 'Podcasts', href: '#' },
 ];
