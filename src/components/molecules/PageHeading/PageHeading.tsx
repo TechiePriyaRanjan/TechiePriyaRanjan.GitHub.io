@@ -19,7 +19,7 @@ const PageHeading: React.FC<PageHeadingProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="mb-8"
+      className="mb-8 mt-12"
     >
       <p className="text-[10px] tracking-[0.3em] font-bold uppercase text-[var(--muted)] mb-4 md:mb-6">
         {pageSubTitle}
@@ -30,9 +30,29 @@ const PageHeading: React.FC<PageHeadingProps> = ({
         </h1>
         {children}
       </div>
-      <p className="text-lg md:text-xl text-[var(--muted)] font-serif italic max-w-2xl leading-relaxed">
-        {pageQuotation}
-      </p>
+      <div className="relative max-w-2xl">
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 160 140"
+          className="absolute -top-4 -left-6 w-48 h-40 opacity-[0.06] text-[var(--text-color)] pointer-events-none select-none"
+          style={{ transform: 'rotate(0deg)', transformOrigin: 'top left' }}
+          fill="currentColor"
+        >
+          <text
+            x="0"
+            y="130"
+            fontSize="180"
+            fontFamily="Georgia, 'Times New Roman', serif"
+            fill="currentColor"
+          >
+            &#8220;
+          </text>
+        </svg>
+        <p className="relative text-lg md:text-xl text-[var(--muted)] font-serif italic leading-relaxed">
+          {pageQuotation}
+        </p>
+      </div>
     </motion.div>
   );
 };

@@ -7,7 +7,7 @@ export const talksData: TalkDataType[] = [
     id: 1,
     title: 'Building RAG-powered React apps',
     tags: ['React', 'AI', 'RAG'],
-    date: 'May 12, 2026',
+    date: 'May 23, 2026',
     place: 'React Bengaluru Meetup, Meetup',
     slidesUrl: '#',
     githubUrl: '#',
