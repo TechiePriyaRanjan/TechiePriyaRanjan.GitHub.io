@@ -53,13 +53,11 @@ const HeroImage = () => {
 
             {/* Image Inner Container */}
             <div className="relative w-full aspect-[4/5] bg-transparent overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500 rounded-sm z-0">
-              <Image
+              <img
                 src="https://priyaranjan.dev/images/my_pic.png"
-                alt="PriyaRanjan Dubey — Software Engineer based in Bengaluru, India"
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 380px, 300px"
-                className="object-contain object-bottom"
-                priority
+                alt="PriyaRanjan"
+                className="w-full h-full object-contain object-bottom"
+                referrerPolicy="no-referrer"
               />
             </div>
           </div>
