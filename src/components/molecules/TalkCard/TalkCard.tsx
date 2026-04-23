@@ -50,12 +50,12 @@ const TalkCard: React.FC<TalkCardProps> = ({ talk, index }) => {
 
         <div className="flex flex-wrap items-center gap-6 mt-1 text-[9px] uppercase font-bold tracking-widest text-[var(--text-color)] opacity-90">
           {talk.slidesUrl && (
-            <a href={talk.slidesUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-[var(--neon-green)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
+            <a href={talk.slidesUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--neon-green)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
               <MonitorPlay size={12} aria-hidden="true" /> SLIDES
             </a>
           )}
           {talk.githubUrl && (
-            <a href={talk.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-[var(--neon-green)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
+            <a href={talk.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--neon-green)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
               <Github size={12} aria-hidden="true" /> REPO
             </a>
           )}

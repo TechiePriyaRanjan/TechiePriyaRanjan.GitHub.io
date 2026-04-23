@@ -38,12 +38,12 @@ const TalkListItem: React.FC<TalkListItemProps> = ({ talk, index }) => {
       {/* Links on Right */}
       <div className="w-full md:w-1/4 flex items-center justify-start md:justify-end gap-6 shrink-0 mt-2 md:mt-0">
          {talk.slidesUrl && (
-           <a href={talk.slidesUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
+           <a href={talk.slidesUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
              <MonitorPlay size={16} aria-hidden="true" /> SLIDES
            </a>
          )}
          {talk.githubUrl && (
-           <a href={talk.githubUrl} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
+           <a href={talk.githubUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest hover:opacity-50 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm">
              <Github size={16} aria-hidden="true" /> REPO
            </a>
          )}

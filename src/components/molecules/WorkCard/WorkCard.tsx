@@ -32,17 +32,17 @@ const WorkCard: React.FC<WorkCardProps> = ({ project, index }) => {
         </div>
         <div className="flex items-center gap-3 text-[var(--muted)] z-10 transition-opacity">
           {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub Repository" className="hover:text-[var(--text-color)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm">
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" aria-label="GitHub Repository" className="hover:text-[var(--text-color)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm">
               <Github size={18} strokeWidth={2} />
             </a>
           )}
           {project.demoUrl && (
-            <a href={project.demoUrl} target="_blank" rel="noreferrer" aria-label="Live Demo" className="hover:text-[var(--text-color)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm">
+            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" aria-label="Live Demo" className="hover:text-[var(--text-color)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm">
               <ExternalLink size={18} strokeWidth={2} />
             </a>
           )}
           {project.presentationUrl && (
-            <a href={project.presentationUrl} target="_blank" rel="noreferrer" aria-label="Presentation Details" className="hover:text-[var(--text-color)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm">
+            <a href={project.presentationUrl} target="_blank" rel="noopener noreferrer" aria-label="Presentation Details" className="hover:text-[var(--text-color)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--text-color)] rounded-sm">
               <MonitorPlay size={18} strokeWidth={2} />
             </a>
           )}
