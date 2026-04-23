@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -37,7 +38,7 @@ const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({ isOpen, onClose, 
             <ul className="text-center space-y-6 uppercase tracking-[4px] font-mono text-xl">
               {links.map((link) => (
                 <li key={link.name}>
-                  <a
+                  <Link
                     href={link.href}
                     onClick={onClose}
                     className="relative text-[var(--text-color)] shadow-[0_-3px_0_0_var(--text-color)_inset] hover:shadow-[0_-20px_0_0_var(--text-color)_inset] transition-shadow duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-8 focus-visible:ring-[var(--text-color)] rounded-sm px-2"
@@ -45,7 +46,7 @@ const MobileMenuOverlay: React.FC<MobileMenuOverlayProps> = ({ isOpen, onClose, 
                   >
                     {link.name.slice(0, -1)}
                     <span className="tracking-normal">{link.name.slice(-1)}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

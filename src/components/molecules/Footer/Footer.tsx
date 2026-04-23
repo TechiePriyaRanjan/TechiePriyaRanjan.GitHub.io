@@ -9,7 +9,7 @@ const Footer = () => {
           <a
             href="https://travisneilson.com/"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="text-[var(--text-color)] opacity-70 hover:opacity-100 hover:underline transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-[2px]"
           >
             Travis Neilson&apos;s portfolio

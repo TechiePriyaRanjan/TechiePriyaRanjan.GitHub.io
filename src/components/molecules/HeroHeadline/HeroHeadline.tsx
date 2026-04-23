@@ -4,20 +4,20 @@ import Image from 'next/image';
 import { useState } from 'react';
 
 const scatteredSkills = [
-  { src: '/images/skills/react.svg', x: -280, y: -180, rotate: -20, size: 70 },
-  { src: '/images/skills/nextjs.svg', x: 250, y: -200, rotate: 15, size: 75 },
-  { src: '/images/skills/javascript.svg', x: -350, y: 60, rotate: -10, size: 60 },
-  { src: '/images/skills/figma.svg', x: 320, y: 80, rotate: 25, size: 65 },
-  { src: '/images/skills/docker.svg', x: -180, y: 240, rotate: 15, size: 70 },
-  { src: '/images/skills/git.svg', x: 220, y: 260, rotate: -15, size: 60 },
-  { src: '/images/skills/html5.svg', x: -440, y: -80, rotate: -5, size: 65 },
-  { src: '/images/skills/css3.svg', x: -680, y: -50, rotate: -20, size: 65 },
-  { src: '/images/skills/graphql.svg', x: -400, y: 220, rotate: 30, size: 70 },
-  { src: '/images/skills/redux.svg', x: 60, y: -240, rotate: -25, size: 70 },
-  { src: '/images/skills/github.svg', x: 60, y: 80, rotate: 10, size: 55 },
-  { src: '/images/skills/mysql.svg', x: -80, y: -85, rotate: -15, size: 75 },
-  { src: '/images/skills/webpack.svg', x: 80, y: 250, rotate: 12, size: 60 },
-  { src: '/images/skills/sass.svg', x: -120, y: 80, rotate: -22, size: 65 },
+  { src: '/images/skills/react.svg', name: 'React', x: -280, y: -180, rotate: -20, size: 70 },
+  { src: '/images/skills/nextjs.svg', name: 'Next.js', x: 250, y: -200, rotate: 15, size: 75 },
+  { src: '/images/skills/javascript.svg', name: 'JavaScript', x: -350, y: 60, rotate: -10, size: 60 },
+  { src: '/images/skills/figma.svg', name: 'Figma', x: 320, y: 80, rotate: 25, size: 65 },
+  { src: '/images/skills/docker.svg', name: 'Docker', x: -180, y: 240, rotate: 15, size: 70 },
+  { src: '/images/skills/git.svg', name: 'Git', x: 220, y: 260, rotate: -15, size: 60 },
+  { src: '/images/skills/html5.svg', name: 'HTML5', x: -440, y: -80, rotate: -5, size: 65 },
+  { src: '/images/skills/css3.svg', name: 'CSS3', x: -680, y: -50, rotate: -20, size: 65 },
+  { src: '/images/skills/graphql.svg', name: 'GraphQL', x: -400, y: 220, rotate: 30, size: 70 },
+  { src: '/images/skills/redux.svg', name: 'Redux', x: 60, y: -240, rotate: -25, size: 70 },
+  { src: '/images/skills/github.svg', name: 'GitHub', x: 60, y: 80, rotate: 10, size: 55 },
+  { src: '/images/skills/mysql.svg', name: 'MySQL', x: -80, y: -85, rotate: -15, size: 75 },
+  { src: '/images/skills/webpack.svg', name: 'Webpack', x: 80, y: 250, rotate: 12, size: 60 },
+  { src: '/images/skills/sass.svg', name: 'Sass', x: -120, y: 80, rotate: -22, size: 65 },
 ];
 
 const HeroHeadline = () => {
@@ -65,7 +65,7 @@ const HeroHeadline = () => {
                 >
                   <Image
                     src={skill.src}
-                    alt="Skill Icon"
+                    alt={`${skill.name} logo`}
                     width={skill.size}
                     height={skill.size}
                     className="object-contain"
