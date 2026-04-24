@@ -1,4 +1,4 @@
-import { WavingHand } from '@/components/WavingHand';
+import { WavingHand } from '@/components/atoms/WavingHand/WavingHand';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import { useState } from 'react';
