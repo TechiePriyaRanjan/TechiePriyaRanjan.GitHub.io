@@ -11,7 +11,7 @@ const links = [
   { name: 'Work', href: '/work' },
   { name: 'Speaking', href: '/speaking' },
   { name: 'Blog', href: '/blog' },
-  // { name: 'Podcasts', href: '#' },
+  { name: 'Impact', href: '/impact' },
 ];
 
 const Navigation = () => {
