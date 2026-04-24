@@ -71,7 +71,7 @@ export const workData: WorkProjectType[] = [
 const WorkGrid = () => {
   if (!workData || workData.length === 0) {
     return (
-      <div className="flex justify-center mt-8 mb-12 py-12 md:py-24 border border-dashed border-[var(--border-color)]">
+      <div className="flex justify-center mt-8 mb-12 py-12 md:py-24 border border-dashed border-[var(--border-color)] rounded-xl">
         <h2 className="text-xl md:text-2xl font-semibold text-[var(--muted)] tracking-tight">
           No projects available yet.
         </h2>
