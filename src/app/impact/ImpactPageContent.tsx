@@ -1,10 +1,15 @@
 'use client';
 
 import PageLayout from '@/components/templates/PageLayout/PageLayout';
-import PageHeading from '@/components/molecules/PageHeading/PageHeading';
 import ImpactGrid from '@/components/organisms/ImpactGrid/ImpactGrid';
+import PageHeading from '@/components/molecules/PageHeading/PageHeading';
+import { ImpactItem } from '@/lib/impact';
 
-export default function ImpactPageContent() {
+interface ImpactPageContentProps {
+  items: ImpactItem[];
+}
+
+export default function ImpactPageContent({ items }: ImpactPageContentProps) {
   return (
     <PageLayout>
       <PageHeading
@@ -12,7 +17,7 @@ export default function ImpactPageContent() {
         pageSubTitle="Community & Growth"
         pageQuotation="Learning & giving back to the community through mentorship, volunteering, open source contributions, hackathon participation and organizing builder events."
       />
-      <ImpactGrid />
+      <ImpactGrid items={items} />
     </PageLayout>
   );
 }

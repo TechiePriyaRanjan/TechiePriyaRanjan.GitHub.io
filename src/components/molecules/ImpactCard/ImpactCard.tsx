@@ -4,9 +4,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Calendar, ArrowRight } from 'lucide-react';
 import Badge from '@/components/atoms/Badge/Badge';
+import Link from 'next/link';
 
 export interface ImpactItem {
-  id: number;
+  id: string | number;
+  slug: string;
   title: string;
   category: string;
   date: string;
@@ -36,14 +38,14 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ item, index }) => {
           </h3>
           <Badge>{item.category}</Badge>
         </div>
-
+        
         {item.organization && (
           <p className="text-[11px] md:text-xs font-bold text-[var(--muted)] tracking-[0.15em] uppercase mb-3 opacity-80">
             @ {item.organization}
           </p>
         )}
-
-        <p className="text-sm md:text-[15px] text-[var(--muted)] leading-relaxed max-w-3xl">
+        
+        <p className="text-sm md:text-[15px] text-[var(--muted)] leading-relaxed max-w-3xl line-clamp-2">
           {item.description}
         </p>
       </div>
@@ -54,16 +56,12 @@ const ImpactCard: React.FC<ImpactCardProps> = ({ item, index }) => {
           <Calendar size={13} className="opacity-60" /> {item.date}
         </div>
 
-        {item.link && (
-          <a
-            href={item.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--text-color)] opacity-80 hover:opacity-100 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm group-hover:translate-x-1 duration-300 mt-3"
-          >
-            VIEW DETAILS <ArrowRight size={14} aria-hidden="true" />
-          </a>
-        )}
+        <Link 
+          href={`/impact/${item.slug}`}
+          className="flex items-center gap-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--text-color)] opacity-80 hover:opacity-100 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm group-hover:translate-x-1 duration-300 mt-3"
+        >
+          VIEW DETAILS <ArrowRight size={14} aria-hidden="true" />
+        </Link>
       </div>
     </motion.div>
   );

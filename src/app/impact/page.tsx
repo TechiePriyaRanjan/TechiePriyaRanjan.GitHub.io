@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ImpactPageContent from './ImpactPageContent';
+import { getAllImpactItems } from '@/lib/impact';
 
 export const metadata: Metadata = {
   title: 'Impact — Community & Mentorship',
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ImpactPage() {
-  return <ImpactPageContent />;
+export default async function ImpactPage() {
+  const items = await getAllImpactItems();
+  return <ImpactPageContent items={items} />;
 }
