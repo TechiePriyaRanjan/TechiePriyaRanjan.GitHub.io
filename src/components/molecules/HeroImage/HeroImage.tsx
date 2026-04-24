@@ -7,11 +7,11 @@ const HeroImage = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
-      className="col-span-1 lg:col-span-4 flex justify-center order-1"
+      className="col-span-1 lg:col-span-4 flex justify-center order-1 w-full"
     >
-      <div className="flex items-end gap-2">
+      <div className="flex items-end gap-2 w-full max-w-[300px] sm:max-w-sm md:max-w-[380px]">
         {/* Vertical label — reads bottom-to-top, left of image */}
-        <div className="self-end pb-1">
+        <div className="self-end pb-1 flex-shrink-0">
           <span
             className="text-[9px] uppercase font-bold tracking-[0.3em] text-[var(--muted)]"
             style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
@@ -20,9 +20,9 @@ const HeroImage = () => {
           </span>
         </div>
 
-        <div className="relative group w-[100%] max-w-[300px] sm:max-w-sm md:max-w-[380px]">
+        <div className="relative group flex-grow">
           {/* Animated Gradient Container */}
-          <div className="relative p-[3px] z-0 rounded-sm">
+          <div className="relative p-[3px] z-0 rounded-sm w-full">
             {/* Outline Draw SVG */}
             <svg
               className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none"
@@ -53,11 +53,12 @@ const HeroImage = () => {
 
             {/* Image Inner Container */}
             <div className="relative w-full aspect-[4/5] bg-transparent overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-500 rounded-sm z-0">
-              <img
-                src="https://priyaranjan.dev/images/my_pic.png"
+              <Image
+                src="/images/my_pic.png"
                 alt="PriyaRanjan"
-                className="w-full h-full object-contain object-bottom"
-                referrerPolicy="no-referrer"
+                fill
+                className="object-contain object-bottom"
+                priority
               />
             </div>
           </div>
