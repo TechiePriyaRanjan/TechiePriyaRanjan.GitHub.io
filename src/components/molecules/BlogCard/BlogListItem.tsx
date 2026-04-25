@@ -1,18 +1,10 @@
-import React from 'react';
 import { Calendar, Clock, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
-
-export interface BlogPostType {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  readTime: string;
-  url: string;
-}
+import Link from 'next/link';
+import { BlogPost } from '@/lib/blog';
 
 interface BlogListItemProps {
-  post: BlogPostType;
+  post: BlogPost;
   index: number;
 }
 
@@ -43,9 +35,12 @@ const BlogListItem: React.FC<BlogListItemProps> = ({ post, index }) => {
           <Clock size={13} className="opacity-60" aria-hidden="true" /> {post.readTime}
         </div>
 
-        <a href={post.url} className="flex items-center gap-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--text-color)] opacity-80 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm group-hover:translate-x-1 duration-300 mt-1">
+        <Link 
+          href={`/blog/${post.slug}`} 
+          className="flex items-center gap-2 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.15em] text-[var(--text-color)] opacity-80 hover:opacity-100 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-[var(--text-color)] rounded-sm group-hover:translate-x-1 duration-300 mt-1"
+        >
           READ ARTICLE <ArrowRight size={14} aria-hidden="true" />
-        </a>
+        </Link>
       </div>
     </motion.div>
   );

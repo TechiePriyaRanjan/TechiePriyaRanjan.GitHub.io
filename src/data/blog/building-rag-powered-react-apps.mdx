@@ -1,0 +1,299 @@
+---
+title: "Building RAG-Powered React Apps: A Complete Guide for 2026"
+description: "From naive chatbot to production-grade retrieval — embeddings, chunking, hybrid search, streaming UIs, and the pitfalls that will bite you in production."
+date: "2026-04-25"
+author: "Priya Ranjan Dubey"
+tags: ["React", "RAG", "LLM", "AI", "Next.js", "TypeScript", "Vector Search"]
+readTime: "18 min read"
+coverImage: "/images/blog/rag-cover.png"
+---
+
+
+# Building RAG-Powered React Apps: A Complete Guide for 2026
+
+> **Talk format:** 45-minute meetup talk — Intermediate to Advanced  
+> **Stack:** Next.js 15 · Vercel AI SDK · LangChain.js · Supabase pgvector · TypeScript  
+> **Companies using this:** Notion AI · GitHub Copilot Chat · Intercom · Klarna · Goldman Sachs
+
+---
+
+## Why RAG Matters in 2026
+
+Large language models are extraordinarily capable — but they know nothing about *your* data. Ask any frontier model about your company's refund policy, your internal API docs, or your product wiki, and one of two things happens:
+
+1. It admits it doesn't know.
+2. Worse — it *makes something up*. Confidently. With bullet points.
+
+That's hallucination. And it's the single biggest blocker to shipping trustworthy AI features in production.
+
+**Retrieval-Augmented Generation (RAG)** is the solution. Instead of relying on the model's training data, you retrieve relevant context from your own documents at query time and inject it into the model's prompt. The model answers from your documents — not from memory.
+
+<Callout type="info">
+**The 2026 insight:** In the current generation of LLMs, the bottleneck has shifted from *generation* to *retrieval*. Claude 4.6, GPT-5 — these models are hyper-intelligent. The failure point is almost always the retriever pulling in the wrong context, not the LLM's reasoning ability. Get retrieval right and everything else follows.
+</Callout>
+
+### The Numbers That Matter
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-8">
+  <StatCard 
+    label="Adoption" 
+    value="72%" 
+    description="Enterprises running RAG in production"
+  />
+  <StatCard 
+    label="Recall" 
+    value="+17%" 
+    description="Improvement: hybrid vs vector-only search"
+  />
+  <StatCard 
+    label="Cost Saving" 
+    value="90%" 
+    description="pgvector vs managed vector DB alternatives"
+  />
+  <StatCard 
+    label="Latency" 
+    value="6ms" 
+    description="p50 latency with Qdrant on 1M vectors"
+  />
+</div>
+
+---
+
+## The 7-Stage RAG Pipeline
+
+Most RAG tutorials cover stages 1–3 and jump straight to 7. The real production work happens in stages 4–6. Here's the complete picture:
+
+```
+Ingest → Chunk → Embed → Store → Retrieve → Rerank → Generate → Stream
+  1        2       3       4        5          6         7         8
+```
+
+![RAG pipeline architecture diagram showing how documents flow from ingestion through chunking, embedding, vector storage, retrieval, reranking, and finally generation](/images/blog/rag-architecture.png)
+
+Let's build each stage in TypeScript, starting with ingest.
+
+---
+
+## Stage 1 — Install Dependencies
+
+<CodeBlock language="bash" filename="terminal">
+```bash showLineNumbers
+# The 2026 RAG stack for a Next.js app
+npm install ai @ai-sdk/openai langchain @langchain/openai
+npm install @langchain/textsplitters @supabase/supabase-js
+
+# Optional: edge-ready vector DB alternative
+npm install @upstash/vector
+```
+</CodeBlock>
+
+---
+
+## Stage 2 — Chunking: The Step Everyone Gets Wrong
+
+Poor chunking is the root cause of most RAG hallucinations. If you split a document at arbitrary character boundaries, you destroy semantic context. A chunk that begins mid-sentence gives the model nothing to work with.
+
+![Document chunking comparison showing naive fixed-size chunking vs semantic-aware recursive splitting that respects paragraph and sentence boundaries](/images/blog/chunking-strategy.png)
+
+### Why Chunking Strategy Matters
+
+- **Fixed-size (naive):** Cuts every N characters regardless of meaning. Fast. Unreliable.
+- **Recursive (recommended):** Tries the biggest separator first (paragraph break), falls back to sentence, then word. Respects document structure.
+- **Semantic:** Splits at actual topic boundaries using embedding similarity. Best quality, highest cost.
+
+<Callout type="warning">
+**Production rule of thumb:** Use `RecursiveCharacterTextSplitter` with 256–512 token chunks and 10–20% overlap as your starting point. Semantic chunking achieves 70% better retrieval accuracy than fixed-size, but recursive gets you 60% of the gain at a fraction of the compute cost.
+</Callout>
+
+<CodeBlock language="typescript" filename="lib/ingest.ts">
+```typescript showLineNumbers
+// lib/ingest.ts — run once per document, not at request time
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+
+export async function ingestDocument(filePath: string) {
+  // Load raw text from PDF, preserving page metadata
+  const loader = new PDFLoader(filePath);
+  const rawDocs = await loader.load();
+
+  // Semantic-aware splitting: 400 token chunks, 80 token overlap
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 400,
+    chunkOverlap: 80,
+    separators: ["\n\n", "\n", ". ", " "],
+  });
+
+  const chunks = await splitter.splitDocuments(rawDocs);
+  return chunks;
+}
+```
+</CodeBlock>
+
+### What a Good Chunk Looks Like
+
+Every chunk should carry its **source metadata** — the filename and page number it came from. This metadata is what enables the source citation UI later, turning your chatbot from a magic black box into an auditable system.
+
+<CodeBlock language="json" filename="sample-output.json">
+```json showLineNumbers
+{
+  "pageContent": "Software licenses are eligible for a full refund within 30 days of purchase...",
+  "metadata": {
+    "source": "Company-Policy.pdf",
+    "loc": { "pageNumber": 2 }
+  }
+}
+```
+</CodeBlock>
+
+---
+
+## Stage 3 — Embeddings: Turning Words into Coordinates
+
+An embedding is a list of floating-point numbers that captures the *semantic meaning* of a piece of text. Texts that mean similar things have vectors that point in similar directions in high-dimensional space. This is what enables similarity search.
+
+![Vector embedding visualization showing how similar concepts like "dog" and "puppy" cluster close together in vector space while semantically distant concepts like "dog" and "airplane" are far apart](/images/blog/vector-embeddings.png)
+
+### Choosing an Embedding Model
+
+| Model | Dimensions | Cost | Best for |
+|-------|-----------|------|---------|
+| `text-embedding-3-small` | 1,536 | Low | Most RAG apps ✅ |
+| `text-embedding-3-large` | 3,072 | Medium | High-precision retrieval |
+| `BGE-M3` (local) | 1,024 | Free | Privacy-first, offline |
+| `nomic-embed-text` (Ollama) | 768 | Free | Local dev |
+
+**Recommendation:** Start with `text-embedding-3-small`. It delivers 97% of the accuracy of the large model at 20% of the cost. Switch only when you have evidence of a retrieval quality problem.
+
+<CodeBlock language="typescript" filename="lib/store.ts">
+```typescript showLineNumbers
+import { embed } from "ai";
+import { openai } from "@ai-sdk/openai";
+
+export async function embedAndStore(chunks: Document[]) {
+  for (const chunk of chunks) {
+    const { embedding } = await embed({
+      model: openai.embedding("text-embedding-3-small"),
+      value: chunk.pageContent,
+    });
+
+    await supabase.from("documents").insert({
+      content: chunk.pageContent,
+      metadata: chunk.metadata,
+      embedding,
+    });
+  }
+}
+```
+</CodeBlock>
+
+### Setting Up pgvector in Supabase
+
+<CodeBlock language="sql" filename="schema.sql">
+```sql showLineNumbers
+create extension if not exists vector;
+
+create table documents (
+  id uuid primary key default gen_random_uuid(),
+  content text not null,
+  metadata jsonb,
+  embedding vector(1536),
+  created_at timestamptz default now()
+);
+
+create index on documents
+using ivfflat (embedding vector_cosine_ops)
+with (lists = 100);
+```
+</CodeBlock>
+
+---
+
+## Stage 4 — Hybrid Retrieval: The Secret Sauce
+
+Vector-only search is not enough for production. It excels at semantic similarity but completely misses exact matches — product SKUs, legal codes, proper nouns, version numbers. BM25 keyword search catches exactly those cases.
+
+![Hybrid search architecture showing parallel BM25 keyword search and vector similarity search results being merged via Reciprocal Rank Fusion to produce superior combined results](/images/blog/hybrid-search.png)
+
+### Why Hybrid Search Wins
+
+The **13% recall gap** is not theoretical — it's real users who get "I don't know" when the answer exists in your documents.
+
+<CodeBlock language="typescript" filename="utils/rrf.ts">
+```typescript showLineNumbers
+export function reciprocalRankFusion(...rankLists: Array<Array<any>>) {
+  const k = 60;
+  const scores = new Map<string, { score: number; doc: any }>();
+
+  for (const list of rankLists) {
+    list.forEach((doc, rank) => {
+      const current = scores.get(doc.id) ?? { score: 0, doc };
+      scores.set(doc.id, {
+        score: current.score + 1 / (rank + k),
+        doc,
+      });
+    });
+  }
+
+  return Array.from(scores.values())
+    .sort((a, b) => b.score - a.score)
+    .map((entry) => entry.doc);
+}
+```
+</CodeBlock>
+
+---
+
+## Stage 5 — Streaming Chat UI with Source Citations
+
+The React layer is where everything comes together. Two things make a RAG UI feel professional rather than demo-quality:
+
+1. **Streaming** — answers appear token-by-token. Users will not wait 3 seconds staring at a spinner.
+2. **Source citations** — every answer shows exactly which document and page it came from.
+
+![Streaming AI chat interface showing token-by-token response rendering with source citation cards appearing below the answer showing document name and page number](/images/blog/streaming-ui.png)
+
+<Callout type="info">
+**"use server"** at the top makes this a Next.js Server Action — it runs on the server, never in the browser. Full TypeScript types flow end-to-end.
+</Callout>
+
+---
+
+## Stage 6 — Evaluation with RAGAS
+
+**Do not skip this.** Without evaluation, you won't know when retrieval quality degrades. And it will degrade — as your document set grows, as users ask new types of questions, as you change your chunk size.
+
+<CodeBlock language="python" filename="evaluation/ragas_eval.py">
+```python showLineNumbers
+from ragas import evaluate
+from ragas.metrics import faithfulness, answer_relevancy, context_recall
+
+result = evaluate(
+    dataset,
+    metrics=[faithfulness, answer_relevancy, context_recall],
+)
+
+print(result)
+# {'faithfulness': 0.92, 'answer_relevancy': 0.88, 'context_recall': 0.79}
+```
+</CodeBlock>
+
+<Callout type="warning">
+**CI gate:** Set a minimum faithfulness score of 0.80. If a PR drops below it — fail the build.
+</Callout>
+
+---
+
+## Learning Outcomes
+
+By the end of this technical guide, you should be able to:
+
+- ✅ Explain the complete 7-stage RAG pipeline without jargon
+- ✅ Choose the right chunking strategy for different document types
+- ✅ Implement hybrid BM25 + vector search with Reciprocal Rank Fusion
+- ✅ Build a streaming React chat component with `useChat` and context injection
+- ✅ Render source citations as interactive UI — making your chatbot auditable
+- ✅ Set up RAGAS evaluation in CI to catch quality regressions automatically
+
+---
+
+*Have questions or found an issue? Reach out on Slack. The repository link and slide deck are in the meetup notes.*

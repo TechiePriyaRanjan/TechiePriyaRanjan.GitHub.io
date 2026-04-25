@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import '@/styles/syntax.css';
 
 /* ── Site Constants ── */
 const SITE_URL = 'https://priyaranjan.dev';

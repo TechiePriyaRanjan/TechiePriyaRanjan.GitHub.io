@@ -5,13 +5,22 @@ import reactHooksPlugin from "eslint-plugin-react-hooks";
 import tsParser from "@typescript-eslint/parser";
 import tsPlugin from "@typescript-eslint/eslint-plugin";
 import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
 
 export default [
+  {
+    ignores: [".next/**", "node_modules/**"],
+  },
   js.configs.recommended,
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
     languageOptions: {
       parser: tsParser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        React: "writable",
+      },
       parserOptions: {
         ecmaFeatures: { jsx: true },
       },
@@ -30,8 +39,9 @@ export default [
       ...nextPlugin.configs.recommended.rules,
       ...nextPlugin.configs["core-web-vitals"].rules,
       "react/react-in-jsx-scope": "off",
+      "react/prop-types": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
       "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "off",
       "unused-imports/no-unused-imports": "error",
       "unused-imports/no-unused-vars": [
         "warn",
@@ -45,6 +55,17 @@ export default [
     },
     settings: {
       react: { version: "detect" },
+    },
+  },
+  {
+    files: ["*.config.js", "*.config.mjs"],
+    languageOptions: {
+      globals: {
+        module: "readonly",
+        process: "readonly",
+        require: "readonly",
+        __dirname: "readonly",
+      },
     },
   },
 ];

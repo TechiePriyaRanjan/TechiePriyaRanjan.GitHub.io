@@ -1,0 +1,155 @@
+---
+title: "RAG in React, Part 1: What It Is and Why It Matters"
+description: "LLMs hallucinate about your data. RAG fixes that. Here's the mental model, the pipeline in one diagram, and your first working ingest script."
+date: "2026-04-25"
+author: "Priya Ranjan Dubey"
+tags: ["React", "RAG", "AI", "Next.js", "TypeScript", "Series"]
+series: "Building RAG-Powered React Apps"
+seriesPart: 1
+readTime: "4 min read"
+coverImage: "/images/blog/rag-part1-cover.png"
+---
+
+
+
+---
+
+## The Problem in One Sentence
+
+LLMs know a lot about the internet. They know nothing about *your* data.
+
+Ask any frontier model about your company's refund policy or internal API docs and one of two things happens — it admits it doesn't know, or worse, it confidently makes something up. That's **hallucination**, and it's the single biggest blocker to shipping trustworthy AI features.
+
+**Retrieval-Augmented Generation (RAG)** is the fix. Instead of relying on training data, you retrieve relevant context from your own documents at query time and inject it into the prompt. The model answers from *your* documents, not memory.
+
+<Callout type="info">
+**The key insight for 2026:** The bottleneck in modern RAG systems isn't the model — Claude 4.6 and GPT-5 are extraordinarily capable. The failure point is almost always the *retriever* pulling in the wrong context. Get retrieval right and everything else follows.
+</Callout>
+
+---
+
+## The Pipeline in One Diagram
+
+Every RAG system has the same skeleton, regardless of framework or language:
+
+```text
+Your Documents
+     │
+     ▼
+  1. INGEST       Load PDF / Markdown / HTML
+     │
+     ▼
+  2. CHUNK        Split into ~400-token pieces
+     │
+     ▼
+  3. EMBED        Turn each chunk into a vector
+     │
+     ▼
+  4. STORE        Save vectors to a database
+     │
+     ▼
+  User Query ──► 5. RETRIEVE    Find similar chunks
+                       │
+                       ▼
+                  6. GENERATE    LLM answers using chunks
+                       │
+                       ▼
+                  7. STREAM      React renders token-by-token
+```
+
+This series covers each stage hands-on. In Part 1 we focus on stages 1–2: ingest and chunk. That's where most tutorials cut corners, and where most production bugs originate.
+
+---
+
+## Your Stack for This Series
+
+```bash showLineNumbers
+npm install ai @ai-sdk/openai langchain
+npm install @langchain/textsplitters @supabase/supabase-js
+```
+
+We'll use **Next.js 15** with Server Actions, **Vercel AI SDK** for streaming, and **Supabase pgvector** as our vector database. No extra services. One codebase. Full TypeScript.
+
+---
+
+## Part 1 Code: Load and Chunk a Document
+
+Here's a complete ingest function. The key decision is `RecursiveCharacterTextSplitter` — it tries paragraph breaks first, then sentence boundaries, then words. It respects the natural structure of your document instead of cutting blindly at character N.
+
+```typescript showLineNumbers
+// lib/ingest.ts
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+
+export async function ingestDocument(filePath: string) {
+  // 1. Load raw text, preserving page numbers in metadata
+  const loader = new PDFLoader(filePath);
+  const rawDocs = await loader.load();
+
+  // 2. Split into chunks — 400 tokens, 80-token overlap
+  //    The overlap prevents context loss at chunk boundaries
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 400,
+    chunkOverlap: 80,
+    separators: ["\n\n", "\n", ". ", " "], // tries largest structure first
+  });
+
+  const chunks = await splitter.splitDocuments(rawDocs);
+
+  // Each chunk carries its source metadata — filename + page number
+  // This powers the source citations we'll build in Part 4
+  console.log(`Split into ${chunks.length} chunks`);
+  console.log("Sample chunk:", chunks[0]);
+
+  return chunks;
+}
+```
+
+Run it to see the output:
+
+```bash showLineNumbers
+node --loader ts-node/esm scripts/ingest.ts ./docs/company-policy.pdf
+# → Split into 14 chunks
+# → Sample chunk: { pageContent: "Software licenses...", metadata: { source: "company-policy.pdf", loc: { pageNumber: 2 } } }
+```
+
+<Callout type="warning">
+**Don't skip the metadata.** Every chunk must carry its `source` filename and `pageNumber`. Without this, you can't show citations in the UI — and without citations, users can't trust the answers. We'll wire this up in Part 4.
+</Callout>
+
+---
+
+## What's in a Good Chunk?
+
+```typescript showLineNumbers
+// What you want every chunk to look like
+{
+  pageContent: "Software licenses are eligible for a full refund within 30 days...",
+  metadata: {
+    source: "company-policy.pdf",
+    loc: { pageNumber: 2 }
+  }
+}
+```
+
+Two things matter: **meaningful text** (not a sentence cut in half) and **traceable metadata** (so the UI can say "Source: company-policy.pdf, page 2"). Everything else in this series depends on getting this right.
+
+---
+
+## What's Next
+
+In **Part 2** we take these chunks and turn them into vectors — converting text into coordinates that enable semantic search. We'll also set up the pgvector database in Supabase and write the embed-and-store function.
+
+By the end of the series you'll have a working streaming RAG chat component in React with source citations, hybrid search, and an evaluation script to catch quality regressions in CI.
+
+---
+
+## References
+
+- [LangChain.js Text Splitters docs](https://js.langchain.com/docs/concepts/text_splitters) — RecursiveCharacterTextSplitter options and custom separators
+- [Vercel AI SDK docs](https://sdk.vercel.ai/docs) — The streaming and embedding APIs we'll use from Part 2 onward
+- [Supabase pgvector guide](https://supabase.com/docs/guides/ai/vector-columns) — Setting up the vector database for Part 2
+
+---
+
+*Next up → **[Part 2: Chunking & Embeddings](/blog/rag-series-part-2)** — turning text into vectors and storing them in Supabase.*

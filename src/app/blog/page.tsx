@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import BlogPageContent from './BlogPageContent';
+import { getAllBlogPosts } from '@/lib/blog';
 
 export const metadata: Metadata = {
   title: 'Blog — Writing & Technical Deep-Dives',
@@ -22,6 +23,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BlogPage() {
-  return <BlogPageContent />;
+export default async function BlogPage() {
+  const posts = await getAllBlogPosts();
+  return <BlogPageContent posts={posts} />;
 }
