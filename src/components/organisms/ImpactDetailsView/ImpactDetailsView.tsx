@@ -1,11 +1,23 @@
 import React from 'react';
-import { Calendar, Image as ImageIcon, ArrowLeft } from 'lucide-react';
+import { Calendar, Image as ImageIcon, ArrowLeft, MapPin } from 'lucide-react';
 import Link from 'next/link';
 import Badge from '@/components/atoms/Badge/Badge';
 import { ImpactItem } from '@/lib/impact';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
 import ClientMotionWrapper from './ClientMotionWrapper';
+import { Pre } from '@/components/mdx/Pre';
+import rehypePrettyCode from 'rehype-pretty-code';
+import BackToTop from '@/components/atoms/BackToTop/BackToTop';
+
+const mdxComponents = {
+  pre: Pre,
+};
+
+const rehypeOptions = {
+  theme: 'github-dark-dimmed',
+  keepBackground: true,
+};
 
 interface ImpactDetailsViewProps {
   item: ImpactItem;
@@ -45,12 +57,24 @@ const ImpactDetailsView: React.FC<ImpactDetailsViewProps> = ({ item }) => {
           </div>
 
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-[var(--text-color)] mb-2">{item.title}</h2>
-          <p className="text-sm font-mono text-[var(--text-color)] opacity-80 uppercase tracking-widest">
-            @ {item.organization}
-          </p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm font-mono text-[var(--text-color)] opacity-80 uppercase tracking-widest">
+            <span>@ {item.organization}</span>
+            <span className="flex items-center gap-2">
+              <MapPin size={14} className="opacity-60" />
+              {item.location}
+            </span>
+          </div>
 
-          <div className="prose prose-invert max-w-none mt-4 text-[var(--muted)] text-lg leading-relaxed">
-            <MDXRemote source={item.content} />
+          <div className="prose prose-invert max-w-none mt-4 text-lg leading-relaxed prose-p:my-6 prose-headings:text-[var(--text-color)] prose-headings:tracking-tight prose-a:text-emerald-500 hover:prose-a:text-emerald-400 prose-strong:text-[var(--text-color)] prose-code:text-emerald-300 prose-pre:bg-neutral-900 prose-pre:border prose-pre:border-[var(--border-color)]">
+            <MDXRemote
+              source={item.content}
+              components={mdxComponents}
+              options={{
+                mdxOptions: {
+                  rehypePlugins: [[rehypePrettyCode, rehypeOptions]],
+                },
+              }}
+            />
           </div>
 
           {/* Gallery Section */}
@@ -71,7 +95,7 @@ const ImpactDetailsView: React.FC<ImpactDetailsViewProps> = ({ item }) => {
                       src={img}
                       alt={`${item.title} gallery image ${idx + 1}`}
                       fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="object-contain transition-transform duration-700 group-hover:scale-105"
                     />
                   </div>
                 ))}
@@ -79,6 +103,7 @@ const ImpactDetailsView: React.FC<ImpactDetailsViewProps> = ({ item }) => {
             </div>
           )}
         </div>
+        <BackToTop />
       </div>
     </ClientMotionWrapper>
   );

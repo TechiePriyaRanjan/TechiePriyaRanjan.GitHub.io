@@ -1,0 +1,53 @@
+/* Syntax Highlighting Styles */
+
+pre {
+  @apply overflow-x-auto rounded-xl border border-[var(--border-color)] bg-neutral-900/50 !important;
+  margin: 2rem 0 !important;
+  padding: 0 !important;
+}
+
+pre [data-line] {
+  @apply px-4 py-0.5 border-l-2 border-transparent;
+}
+
+pre [data-highlighted-line] {
+  @apply bg-emerald-500/10 border-emerald-500/50;
+}
+
+pre [data-highlighted-chars] {
+  @apply bg-emerald-500/20 rounded;
+  padding: 0.1rem 0.2rem;
+}
+
+code {
+  @apply font-mono text-sm leading-relaxed;
+  counter-reset: line;
+}
+
+code[data-line-numbers] > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1rem;
+  margin-right: 1.5rem;
+  text-align: right;
+  @apply text-neutral-600;
+}
+
+/* Figure styling for titles */
+figure[data-rehype-pretty-code-figure] {
+  @apply my-8;
+}
+
+figcaption[data-rehype-pretty-code-title] {
+  @apply px-4 py-2 rounded-t-xl border-x border-t border-[var(--border-color)] bg-neutral-900 text-[10px] font-mono tracking-widest text-[var(--muted)] uppercase;
+}
+
+figcaption[data-rehype-pretty-code-title] + pre {
+  @apply mt-0 rounded-t-none border-t-0 !important;
+}
+
+/* Copy Button & Language Badge (Custom implementation) */
+.code-header {
+  @apply flex items-center justify-between px-4 py-2 rounded-t-xl border-x border-t border-[var(--border-color)] bg-neutral-900 text-[10px] font-mono tracking-widest text-[var(--muted)] uppercase;
+}

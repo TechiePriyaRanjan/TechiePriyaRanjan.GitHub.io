@@ -1,35 +1,13 @@
 import React from 'react';
-import BlogListItem, { BlogPostType } from '@/components/molecules/BlogCard/BlogListItem';
+import BlogListItem from '@/components/molecules/BlogCard/BlogListItem';
+import { BlogPost } from '@/lib/blog';
 
-export const blogData: BlogPostType[] = [
-  {
-    id: 1,
-    title: 'Building RAG-powered React apps',
-    description: 'Building RAG-powered React apps means combining retrieval systems with AI models in a React frontend to deliver context-aware, dynamic responses.',
-    date: 'April 22, 2026',
-    readTime: '6 min read',
-    url: '#',
-  },
-  // {
-  //   id: 2,
-  //   title: 'Rebuilding a Portfolio with Modern Tools',
-  //   description: 'A deep dive into the design decisions, component architecture, and animation strategies used in my latest updates.',
-  //   date: 'February 12, 2026',
-  //   readTime: '8 min read',
-  //   url: '#',
-  // },
-  // {
-  //   id: 3,
-  //   title: 'Mastering Design Tokens',
-  //   description: 'Creating scalable, themeable, and maintainable utility variations by pushing configuration to its limits.',
-  //   date: 'January 05, 2026',
-  //   readTime: '5 min read',
-  //   url: '#',
-  // }
-];
+interface BlogListProps {
+  posts: BlogPost[];
+}
 
-const BlogList = () => {
-  if (!blogData || blogData.length === 0) {
+const BlogList: React.FC<BlogListProps> = ({ posts }) => {
+  if (!posts || posts.length === 0) {
     return (
       <div className="flex justify-center mt-12 mb-12 py-12 md:py-24 border border-dashed border-[var(--border-color)]">
         <h2 className="text-xl md:text-2xl font-semibold text-[var(--muted)] tracking-tight">
@@ -41,7 +19,7 @@ const BlogList = () => {
 
   return (
     <div className="flex flex-col mt-8 mb-12 border-t border-[var(--border-color)]">
-      {blogData.map((post, index) => (
+      {posts.map((post, index) => (
         <BlogListItem key={post.id} post={post} index={index} />
       ))}
     </div>

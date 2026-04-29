@@ -3,8 +3,15 @@
 import PageLayout from '@/components/templates/PageLayout/PageLayout';
 import BlogList from '@/components/organisms/BlogList/BlogList';
 import PageHeading from '@/components/molecules/PageHeading/PageHeading';
+import BackToTop from '@/components/atoms/BackToTop/BackToTop';
 
-export default function BlogPageContent() {
+import { BlogPost } from '@/lib/blog';
+
+interface BlogPageContentProps {
+  posts: BlogPost[];
+}
+
+export default function BlogPageContent({ posts }: BlogPageContentProps) {
   return (
     <PageLayout>
       <PageHeading
@@ -12,7 +19,8 @@ export default function BlogPageContent() {
         pageSubTitle="Writing"
         pageQuotation="Thoughts, reflections, and technical deep-dives on software engineering, design, and building for the web."
       />
-      <BlogList />
+      <BlogList posts={posts} />
+      <BackToTop />
     </PageLayout>
   );
 }
