@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import '@/styles/syntax.css';
+import Script from 'next/script';
 
 /* ── Site Constants ── */
 const SITE_URL = 'https://priyaranjan.dev';
@@ -185,6 +186,11 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <Script
+          src="https://cloud.umami.is/script.js"
+          data-website-id="cb1b66e8-cdd9-43df-85f8-05c90e1a1600"
+          strategy='afterInteractive'
         />
         {children}
       </body>
